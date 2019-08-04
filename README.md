@@ -1,26 +1,54 @@
-# Install 3 node k8s cluster using KOPS.
-- Create EC2 instance for kubectl.
-- Create ec2-admin role and attach Administrator policy.
-- Create a hosted zone in AWS (vinga.cf)
+# Install Kubernetes.
+
+1. HA k8s cluster via Terraform and Ansible.
+2. K8s installation via KOPS.
+
+## HA k8s cluster via Terraform and Ansible.
+- Please refer below readme.
+- k8s-cluster-terraform-ansible/README.md
+
+## K8s installation via KOPS.
+
+#### Assumptions
+- I have tested the mediawiki deployment on above HA k8s cluster 
+- but it was expensive for me to keep running hence I am demonstrating the same on KOPS.
+- KOPS_CLUSTER_NAME=vinga.cf (When you run it, change the name)
+- KOPS_STATE_STORE=s3://vinga.cf (When you run it, change the name)
+- Kubectl running on ubuntu 16.04 box.
+- Created a hosted zone in AWS (vinga.cf) (When you run it, change the name)
+
+#### Make Kubectl machine ready.
+- Create EC2 instance of ubuntu 16.04.
+- Create ec2-admin role and attach Administrator policy.(We can make our policy and attach)
 - Login to kubectl server and run below commands
-```
-$ aws s3api create-bucket --bucket vinga.cf --region ap-south-1
 - Install kubectl:
+```
 $ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 $ chmod +x ./kubectl
 $ sudo mv ./kubectl /usr/local/bin/kubectl
 $ apt-get install python
 $ pip install aws-cli
+$ aws s3api create-bucket --bucket vinga.cf --region ap-south-1
 $ ssh-keygen -f .ssh/id_rsa
+```
+- Install Helm.
+```
+$ wget https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz
+$ tar -zxvf helm-v2.14.3-linux-amd64.tar.gz
+$ mv linux-amd64/helm /usr/local/bin/helm
+
+```
 - Install KOPS:
+```
 $ wget https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
-$ chmod +x kops-linux-amd64
+$ sudo chmod +x kops-linux-amd64
 $ sudo mv kops-linux-amd64 /usr/local/bin/kops
 $ export KOPS_STATE_STORE=s3://vinga.cf
 $ export KOPS_CLUSTER_NAME=vinga.cf
 $ kops create cluster --cloud=aws --zones=ap-south-1a,ap-south-1b --name vinga.cf --node-count=2 --node-size=t2.medium --master-size=t2.micro
 $ kops update cluster --name ${KOPS_CLUSTER_NAME} –yes
 $ kops validate cluster
+
 ```
 ## Install nginx-controller
 ```
