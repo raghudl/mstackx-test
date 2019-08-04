@@ -1,13 +1,15 @@
-# Install Kubernetes.
+# Solution
+
+## Install Kubernetes.
 
 1. HA k8s cluster via Terraform and Ansible.
 2. K8s installation via KOPS.
 
-## HA k8s cluster via Terraform and Ansible.
+### HA k8s cluster via Terraform and Ansible.
 - Please refer below readme.
 - k8s-cluster-terraform-ansible/README.md
 
-## K8s installation via KOPS.
+### K8s installation via KOPS.
 
 #### Assumptions
 - I have tested the mediawiki deployment on above HA k8s cluster 
