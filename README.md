@@ -111,6 +111,23 @@ $ cat Jenkinsfile.deploy
 - Make required changes like BucketName=helm-XXXX
 - Save the job and run.
 - This will download the chart from s3 and run the deployment for mediawiki.
+## Kubernetes Dashboard.
+```
+$ kubectl create -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.8.3.yaml 
+$ kubectl create -f kube-dashboard-access.yaml
+```
+- Get the Token to login.
+```
+$ kubectl get secret --namespace kube-system $(kubectl get serviceaccount --namespace kube-system kubernetes-dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
+```
+- Get the link to connect Daskboard.
+```
+$ kubectl cluster-info | grep master 
+```
+- Once you get the url, append this link /api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+- Example.
+- https://api.vinga.cf/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+- Enter the token which you received from above command.
 
 
 
