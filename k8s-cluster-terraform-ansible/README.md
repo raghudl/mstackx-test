@@ -9,6 +9,9 @@ Terraform will create below resources:
 - Kubenet Pod networking (using CNI)
 - HTTPS between components and control API.
 
+## Architecture
+![Alt text](https://github.com/vinga2805/mstackx-test/blob/master/k8s-cluster-terraform-ansible/k8snthw-networking.png)
+
 ## Requirements
 
 Requirements on control machine:
