@@ -37,8 +37,8 @@ Change control_cidr to your kubectl/terraform server.
 $ export AWS_ACCESS_KEY_ID=<access-key-id>
 $ export AWS_SECRET_ACCESS_KEY="<secret-key>"
 ```
-###Sample `terraform.tfvars`:
-
+### Sample `terraform.tfvars`:
+```
 default_keypair_public_key = "ssh-rsa AAA...zzz"
 control_cidr = "123.45.67.89/32"
 default_keypair_name = "k8s"
@@ -51,12 +51,11 @@ $ terraform plan
 $ terraform apply
 ```
 ```
-Outputs:
-
+Output:
 kubernetes_api_dns_name = kubernetes-1139381945.us-west-2.elb.amazonaws.com
 kubernetes_workers_public_ip = 34.220.67.40,34.210.78.65,54.200.30.0
 ```
-
+```
 ### Generated SSH config
 
 Terraform generates `ssh.cfg`, SSH configuration file in the project directory.
