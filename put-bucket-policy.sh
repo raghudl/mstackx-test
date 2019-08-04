@@ -11,9 +11,7 @@ aws s3api put-bucket-policy --bucket ${BUCKET} --region $AWS_REGION --policy '{
    "Statement": [
       {
          "Effect": "Allow",
-         "Principal": {
-            "AWS": "'${NODE_ROLE_ARN}'"
-          },
+         "Principal": "*",
          "Action": [
           "s3:GetObject",
           "s3:PutObject"
@@ -22,9 +20,7 @@ aws s3api put-bucket-policy --bucket ${BUCKET} --region $AWS_REGION --policy '{
       },
       {
          "Effect": "Allow",
-         "Principal": {
-            "AWS": "'${NODE_ROLE_ARN}'"
-          },
+         "Principal": "*", 
          "Action": "s3:ListBucket",
          "Resource": "arn:aws:s3:::'${BUCKET}'"
       }
