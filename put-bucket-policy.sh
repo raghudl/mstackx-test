@@ -2,7 +2,7 @@
 DEFAULT_REGION="ap-south-1"
 AWS_REGION="${AWS_REGION:-${DEFAULT_REGION}}"
 
-BUCKET="helm-kebko0gq"
+BUCKET="helm-gg7esslx"
 NODE_ROLE_ARN="arn:aws:iam::828054316136:role/masters.vinga.cf"
 
 export AWS_REGION
