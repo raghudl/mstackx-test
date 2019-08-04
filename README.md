@@ -55,7 +55,6 @@ Output:
 kubernetes_api_dns_name = kubernetes-1139381945.us-west-2.elb.amazonaws.com
 kubernetes_workers_public_ip = 34.220.67.40,34.210.78.65,54.200.30.0
 ```
-```
 ### Generated SSH config
 
 Terraform generates `ssh.cfg`, SSH configuration file in the project directory.
@@ -68,7 +67,6 @@ $ ssh -F ssh.cfg worker0
 
 ## Install Kubernetes components with Ansible
 
-We have multiple playbooks.
 
 ### Install and set up Kubernetes cluster
 
