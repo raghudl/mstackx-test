@@ -132,6 +132,82 @@ $ kubectl cluster-info | grep master
 - Enter the token which you received from above command.
 
 
+reate Docker private repositry.
+```
+kubectl apply \
+    -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.8/deploy/manifests/00-crds.yaml
+```
+- You should see the following output:
+```
+customresourcedefinition.apiextensions.k8s.io/certificates.certmanager.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/issuers.certmanager.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/clusterissuers.certmanager.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/orders.certmanager.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/challenges.certmanager.k8s.io created
+```
+- Label the kube-system namespace.
+```
+kubectl label namespace kube-system certmanager.k8s.io/disable-validation="true"
+```
+- Add the Jetstack Helm repository to Helm. This repository contains the cert-manager Helm chart.
+```
+helm repo add jetstack https://charts.jetstack.io
+```
+- Install the chart into the kube-system namespace:
+```
+helm install --name cert-manager --namespace kube-system jetstack/cert-manager --version v0.8.0
+- You should see following message.
+```
+Output
+. . .
+NOTES:
+cert-manager has been deployed successfully!
+
+In order to begin issuing certificates, you will need to set up a ClusterIssuer
+or Issuer resource (for example, by creating a 'letsencrypt-staging' issuer).
+
+More information on the different types of issuers and how to configure them
+can be found in our documentation:
+
+https://cert-manager.readthedocs.io/en/latest/reference/issuers.html
+
+For information on how to configure cert-manager to automatically provision
+Certificates for Ingress resources, take a look at the `ingress-shim`
+documentation:
+
+https://cert-manager.readthedocs.io/en/latest/reference/ingress-shim.html
+```
+
+- Roll out the ClusterIssuer using kubectl:
+
+```
+kubectl create -f staging_issuer.yaml
+
+```
+- Install docker registry 
+```
+helm install  --name docker-registry docker-registry/
+```
+- I have created ingress for registry which will be served by nginx controller.
+- Create an entry in route 53 for registry.vinga.cf pointing to Nginx controller ELB.
+- I have hardcoded the credentials.
+- username: vinga
+- password: test123
+- Try login with above credentials.
+```
+docker login registry.vinga.cf
+```
+- Now we need to make sure K8s cluster should know the credentials.
+- Run below command on kubectl server.
+```
+kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
+
+
+
+
+
+
 
 
 
