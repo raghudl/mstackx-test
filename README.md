@@ -132,7 +132,8 @@ $ kubectl cluster-info | grep master
 - Enter the token which you received from above command.
 
 
-reate Docker private repositry.
+## Create Docker private repositry.
+- Install certificate manager
 ```
 kubectl apply \
     -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.8/deploy/manifests/00-crds.yaml
