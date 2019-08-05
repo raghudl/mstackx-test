@@ -157,6 +157,7 @@ helm repo add jetstack https://charts.jetstack.io
 - Install the chart into the kube-system namespace:
 ```
 helm install --name cert-manager --namespace kube-system jetstack/cert-manager --version v0.8.0
+```
 - You should see following message.
 ```
 Output
