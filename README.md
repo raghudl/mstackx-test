@@ -68,6 +68,7 @@ $ kubectl get svc | grep ingress | awk '{print $4}'
 - Make A records for below domains with above LB url.
 - mediawiki.vinga.cf
 - jenkins.vinga.cf
+- registry.vinga.cf
 
 ## Install helm
 ```
@@ -204,6 +205,37 @@ docker login registry.vinga.cf
 ```
 kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
 ```
+### Test Private registry.
+
+```
+$ kubectl create -f sample/nginx_deploy.yaml
+```
+- Please find below snippet, I have mentioned my private repo with kube secrets.
+```
+cat nginx_deploy.yaml
+
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry.vinga.cf/nginx   <<<<<<<
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+       - name: regcred         <<<<<<<<<
+
 
 
 
